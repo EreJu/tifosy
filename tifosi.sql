@@ -17,6 +17,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `achete`
+--
+
+DROP TABLE IF EXISTS `achete`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `achete` (
+  `id_client` int(11) NOT NULL,
+  `id_menu` int(11) NOT NULL,
+  `date_achat` datetime NOT NULL,
+  PRIMARY KEY (`id_client`,`id_menu`,`date_achat`),
+  KEY `id_menu` (`id_menu`),
+  CONSTRAINT `achete_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`),
+  CONSTRAINT `achete_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `achete`
+--
+
+LOCK TABLES `achete` WRITE;
+/*!40000 ALTER TABLE `achete` DISABLE KEYS */;
+/*!40000 ALTER TABLE `achete` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `boisson`
 --
 
@@ -54,6 +81,32 @@ INSERT INTO `boisson` VALUES
 (11,'Monster energy ultra blue',3),
 (12,'Eau de source',2);
 /*!40000 ALTER TABLE `boisson` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `client`
+--
+
+DROP TABLE IF EXISTS `client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `client` (
+  `id_client` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_client` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `code_postal` varchar(10) NOT NULL,
+  PRIMARY KEY (`id_client`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `client`
+--
+
+LOCK TABLES `client` WRITE;
+/*!40000 ALTER TABLE `client` DISABLE KEYS */;
+/*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -152,6 +205,58 @@ INSERT INTO `comprend` VALUES
 (8,20,1),
 (8,21,80);
 /*!40000 ALTER TABLE `comprend` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contient`
+--
+
+DROP TABLE IF EXISTS `contient`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contient` (
+  `id_menu` int(11) NOT NULL,
+  `id_boisson` int(11) NOT NULL,
+  PRIMARY KEY (`id_menu`,`id_boisson`),
+  KEY `id_boisson` (`id_boisson`),
+  CONSTRAINT `contient_ibfk_1` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`),
+  CONSTRAINT `contient_ibfk_2` FOREIGN KEY (`id_boisson`) REFERENCES `boisson` (`id_boisson`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contient`
+--
+
+LOCK TABLES `contient` WRITE;
+/*!40000 ALTER TABLE `contient` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contient` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `est_constitue`
+--
+
+DROP TABLE IF EXISTS `est_constitue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `est_constitue` (
+  `id_menu` int(11) NOT NULL,
+  `id_focaccia` int(11) NOT NULL,
+  PRIMARY KEY (`id_menu`,`id_focaccia`),
+  KEY `id_focaccia` (`id_focaccia`),
+  CONSTRAINT `est_constitue_ibfk_1` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`),
+  CONSTRAINT `est_constitue_ibfk_2` FOREIGN KEY (`id_focaccia`) REFERENCES `focaccia` (`id_focaccia`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `est_constitue`
+--
+
+LOCK TABLES `est_constitue` WRITE;
+/*!40000 ALTER TABLE `est_constitue` DISABLE KEYS */;
+/*!40000 ALTER TABLE `est_constitue` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -267,6 +372,32 @@ INSERT INTO `marque` VALUES
 (4,'Pepsico');
 /*!40000 ALTER TABLE `marque` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `menu`
+--
+
+DROP TABLE IF EXISTS `menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menu` (
+  `id_menu` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_menu` varchar(100) NOT NULL,
+  `prix` decimal(6,2) NOT NULL,
+  PRIMARY KEY (`id_menu`),
+  UNIQUE KEY `nom_menu` (`nom_menu`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`prix` >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -277,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-06 22:09:11
+-- Dump completed on 2026-11-06 22:58:06
